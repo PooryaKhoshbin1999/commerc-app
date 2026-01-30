@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { getAllProducts, getProductByCategory } from "../../API";
+import { useEffect, useState } from 'react';
+import { getAllProducts, getProductByCategory } from '../../API';
 import {
   Card,
   List,
@@ -9,18 +9,17 @@ import {
   Rate,
   Button,
   message,
-  Spin,
   Select,
-} from "antd";
-import "./products.css";
-import { addToCart } from "../../API";
-import { useParams } from "react-router-dom";
+} from 'antd';
+import './products.css';
+import { addToCart } from '../../API';
+import { useParams } from 'react-router-dom';
 
 function Products() {
   const [loading, setLoading] = useState(false);
   const param = useParams();
   const [items, setItmes] = useState([]);
-  const [sortOrder, setSortOrder] = useState("az");
+  const [sortOrder, setSortOrder] = useState('az');
   useEffect(() => {
     setLoading(true);
     (param?.categoryId
@@ -37,19 +36,28 @@ function Products() {
     sortedItems.sort((a, b) => {
       const aLowerCaseTitle = a.title.toLowerCase();
       const bLowerCaseTitle = b.title.toLowerCase();
-      if (sortOrder === "az") {
-        return aLowerCaseTitle > bLowerCaseTitle ? 1 : aLowerCaseTitle === bLowerCaseTitle ? 0 : -1;
-      } else if (sortOrder === "za") {
-        return aLowerCaseTitle < bLowerCaseTitle ? 1 : aLowerCaseTitle === bLowerCaseTitle ? 0 : -1;
-      } else if (sortOrder === "highLow") {
+      if (sortOrder === 'az') {
+        return aLowerCaseTitle > bLowerCaseTitle
+          ? 1
+          : aLowerCaseTitle === bLowerCaseTitle
+          ? 0
+          : -1;
+      } else if (sortOrder === 'za') {
+        return aLowerCaseTitle < bLowerCaseTitle
+          ? 1
+          : aLowerCaseTitle === bLowerCaseTitle
+          ? 0
+          : -1;
+      } else if (sortOrder === 'highLow') {
         return a.price < b.price ? 1 : a.price === b.price ? 0 : -1;
-      } else if (sortOrder === "lowHigh") {
+      } else if (sortOrder === 'lowHigh') {
         return a.price > b.price ? 1 : a.price === b.price ? 0 : -1;
       }
+      return 0;
     });
     return sortedItems;
   };
- 
+
   return (
     <div className="productsContainer">
       <div>
@@ -58,29 +66,29 @@ function Products() {
           onChange={(value) => {
             setSortOrder(value);
           }}
-          defaultValue={"az"}
+          defaultValue={'az'}
           options={[
             {
-              label: "Alphabetically a-z",
-              value: "az",
+              label: 'Alphabetically a-z',
+              value: 'az',
             },
             {
-              label: "Alphabetically z-a",
-              value: "za",
+              label: 'Alphabetically z-a',
+              value: 'za',
             },
             {
-              label: "Price Low to High",
-              value: "lowHigh",
+              label: 'Price Low to High',
+              value: 'lowHigh',
             },
             {
-              label: "Price High to Low",
-              value: "highLow",
+              label: 'Price High to Low',
+              value: 'highLow',
             },
           ]}
         ></Select>
       </div>
       <List
-      loading={loading}
+        loading={loading}
         grid={{ column: 3 }}
         renderItem={(product, index) => {
           return (
@@ -94,18 +102,28 @@ function Products() {
                 title={product.title}
                 key={index}
                 cover={
-                  <Image className="itemCardImage" src={product.thumbnail} />
+                  <Image
+                    className="itemCardImage"
+                    src={product.thumbnail}
+                  />
                 }
                 actions={[
-                  <Rate allowHalf disabled value={product.rating} />,
+                  <Rate
+                    allowHalf
+                    disabled
+                    value={product.rating}
+                  />,
                   <AddToCartButton item={product} />,
                 ]}
               >
                 <Card.Meta
                   title={
                     <Typography.Paragraph>
-                      Price: ${product.price}{" "}
-                      <Typography.Text delete type="danger">
+                      Price: ${product.price}{' '}
+                      <Typography.Text
+                        delete
+                        type="danger"
+                      >
                         $
                         {parseFloat(
                           product.price +
@@ -116,7 +134,7 @@ function Products() {
                   }
                   description={
                     <Typography.Paragraph
-                      ellipsis={{ rows: 2, expandable: true, symbol: "more" }}
+                      ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}
                     >
                       {product.description}
                     </Typography.Paragraph>
